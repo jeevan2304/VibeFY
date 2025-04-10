@@ -11,12 +11,24 @@ class  SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
+  void dispose(){
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+    formKey.currentState!.validate();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
+        child: Form(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,17 +42,25 @@ class _SignupPageState extends State<SignupPage> {
             const SizedBox(height: 30,),
             CustomField(
               hintText: 'Name',
+              controller: nameController,
             ),
             const SizedBox(height: 15,),
-            CustomField(hintText: 'Email'),
+            CustomField(hintText: 'Email',
+            controller : emailController,
+            ),
             const SizedBox(height: 15,),
-            CustomField(hintText: 'Password'),
+            CustomField(hintText: 'Password',
+              controller: passwordController,
+            isObscureText: true,),
             const SizedBox(height: 15,),
-            AuthGradientButton(),
+            AuthGradientButton(
+              buttonText: 'Sign Up',
+                onTap: (){},
+            ),
             const SizedBox(height: 15,),
             RichText(text: TextSpan(text: 'Already have an account? ',
               style: Theme.of(context).textTheme.titleMedium,
-              children:[
+              children:const[
                 TextSpan(text: 'Sign In',
                     style: TextStyle(color: Pallete.gradient2,
                     fontWeight: FontWeight.bold,),
@@ -50,6 +70,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             ),
           ],
+        ),
         ),
       ),
     );
